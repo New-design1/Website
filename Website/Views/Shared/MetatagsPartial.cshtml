@@ -1,0 +1,20 @@
+﻿<title>Verti - интернет-магазин смартфонов</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+@if(ViewBag.Title != null)
+{
+	<title>@ViewBag.Title</title>
+}
+else
+{
+	<title>Моя компания</title>
+}
+@if(ViewBag.Description != null)
+{
+	<meta name="description" content="@ViewBag.Description">
+}
+@if(ViewBag.Keywords != null)
+{
+	<meta name="keywords" content="@ViewBag.Keywords" />
+}

@@ -1,0 +1,46 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+	@await Html.PartialAsync("MetatagsPartial")
+	@await Html.PartialAsync("CssPartial")
+</head>
+<body class="is-preload right-sidebar">
+	<div id="page-wrapper">
+
+		<!-- Header -->
+		@await Html.PartialAsync("HeaderPartial")
+
+		<!-- Main -->
+		<div id="main-wrapper">
+			<div class="container">
+				<div class="row gtr-200">
+					<div class="col-4 col-12-medium">
+						<div id="sidebar">
+
+							<!-- Sidebar -->
+							@await Html.PartialAsync("LeftSidebarPartial")
+
+						</div>
+					</div>
+					<div class="col-8 col-12-medium">
+						<div id="content">
+
+							<!-- Content -->
+							@RenderBody()
+
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+
+		<!-- Footer -->
+		@await Html.PartialAsync("FooterPartial")
+
+	<!-- Scripts -->
+		@await Html.PartialAsync("ScriptsPartial")
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

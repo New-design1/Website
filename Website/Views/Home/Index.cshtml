@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Website.Domain.Entities.Phone>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    @foreach(Phone phone in Model)
+    {
+	    <div class="grd-item">
+		    <div class="catalog-item-body">
+			    <div class="catalog-item-picture-block">
+				    <img class="item-image" src="@phone.ImagePath1" alt="" />
+			    </div>
+                <div class="catalog-item-except-picture">
+                    <div class="catalog-item-info">
+                        <a asp-controller="Product" asp-action="ProductPage" asp-route-id="@phone.Id">@phone.ModelName</a>
+                    </div>
+                    <div class="catalog-item-shop">
+                        <div class="catalog-item-price">
+                            @phone.Price P
+                        </div>
+                        <button class="catalog-item-button"><a class="catalog-item-button-link" href="#"> Купить </a></button>
+                    </div>
+                </div>
+		    </div>
+	    </div>
+    }
+</div>
