@@ -6,21 +6,49 @@ namespace Website.Domain.Entities
 	{
 		[Required]
 		public Guid Id { get; set; }
-		public string? ImagePath1 { get; set; }
-		public string? ImagePath2 { get; set; }
-		public string? ImagePath3 { get; set; }
-		public string? ImagePath4 { get; set; }
-		public string? ImagePath5 { get; set; }
 		public string? ModelName { get; set; }
-		public string? Color { get; set; }
-		public string? ScreenDiagonal { get; set; }
-		public string? Resolution { get; set; }
-		public string? ScreenFrequency { get; set;}
-		public string? OperatingSystem { get; set;}
-		public string? ProcessorModel { get; set; }
-		public string? CoresCount { get; set; }
-		public string? CoreFrequency { get; set; }
-		public string? BatteryCapacity { get; set; }
-		public string? Price { get; set; }
+	}
+
+	public class Image
+	{
+		[Required]
+		public int Id { get; set; }
+		public string? Path { get; set; }
+	}
+
+	public class PhoneImage
+	{
+		[Required]
+		public int Id { get; set; }
+		public Guid PhoneId { get; set; }
+		public int ImageId { get; set; }
+		public Phone? Phone { get; set; }
+		public Image? Image { get; set; }
+	}
+
+	public class Characteristic
+	{
+		[Required]
+		public int Id { get; set; }
+		public string? Name { get; set; }
+	}
+
+	public class Example
+	{
+		[Required]
+		public int Id { get; set; }
+		public int CharacteristicId { get; set; }
+		public Characteristic? Characteristic { get; set; }
+		public string? Value { get; set; }
+	}
+
+	public class PhoneExample
+	{
+		[Required]
+		public int Id { get; set; }
+		public Guid PhoneId { get; set; }
+		public int ExampleId { get; set; }
+		public Phone? Phone { get; set; }
+		public Example? Example { get; set; }
 	}
 }
