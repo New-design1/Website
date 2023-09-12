@@ -6,7 +6,7 @@ using Website.Domain.Repositories.Abstract;
 
 namespace Website.Domain.Repositories.EntityFramework
 {
-    public class EFTextFieldsRepository : ITextFieldsRepository
+	/*public class EFTextFieldsRepository : ITextFieldsRepository
     {
         private readonly AppDbContext context;
         public EFTextFieldsRepository(AppDbContext context)
@@ -44,5 +44,5 @@ namespace Website.Domain.Repositories.EntityFramework
             context.TextFields.Remove(new TextField() { Id = id });
             context.SaveChanges();
         }
-    }
+    }*/
 }
