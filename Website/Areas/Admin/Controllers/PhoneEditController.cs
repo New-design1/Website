@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Reflection.PortableExecutable;
 using Website.Domain;
 using Website.Domain.Entities;
 
@@ -7,52 +8,60 @@ namespace Website.Areas.Admin.Controllers
 	[Area("Admin")]
 	public class PhoneEditController : Controller
 	{
-		AppDbContext context;
+		AppDbContext dbContext;
 		IWebHostEnvironment hostingEnvironment;
+		List<Characteristic> characteristics;
 
 		public PhoneEditController(AppDbContext context, IWebHostEnvironment hostingEnvironment) 
 		{ 
-			this.context = context;
+			dbContext = context;
 			this.hostingEnvironment = hostingEnvironment;
+			characteristics = dbContext.Characteristics.ToList();
 		}
+		
 		public IActionResult AddPhone()
 		{
-			//var ph = new Phone()
-			//{
-			//	Id = Guid.NewGuid(),
-			//	Color = "blue",
-			//	ScreenDiagonal = "4.5",
-			//	CoresCount = "5"
-			//};
-			//context.Phones.Add(ph);
-			//context.SaveChanges();
-			return View();
+			
+			return View(characteristics);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> AddPhone(Phone phone)
+		public async Task<IActionResult> AddPhone(Phone phone, params string[] values)
 		{
 			//if(ModelState.IsValid) 
 			//{
-				if (Request.Form.Files != null)
+			dbContext.Phones.Add(phone);
+
+			if (Request.Form.Files != null)
+			{
+				int imgNum = 1;
+				foreach (var img in Request.Form.Files)
 				{
-					int imgNum = 1;
-					foreach (var img in Request.Form.Files)
+					using (var stream = new FileStream(Path.Combine(hostingEnvironment.WebRootPath, "images/phones/", img.FileName), FileMode.Create))
 					{
-						using (var stream = new FileStream(Path.Combine(hostingEnvironment.WebRootPath, "images/phones/", img.FileName), FileMode.Create))
-						{
-							img.CopyTo(stream);
-						}
-						string path = Path.Combine("/images/phones/", img.FileName);
-						Type type = typeof(Phone);
-						var imgProp = type.GetProperty("ImagePath" + imgNum++.ToString());
-						imgProp.SetValue(phone, path);
+						img.CopyTo(stream);
 					}
+					string path = Path.Combine("/images/phones/", img.FileName);
+					Image image = new Image() { Path = path };
+					dbContext.Images.Add(image);
+					dbContext.PhoneImages.Add(new PhoneImage() { Phone = phone, Image = image });
+					//Type type = typeof(Phone);
+					//var imgProp = type.GetProperty("ImagePath" + imgNum++.ToString());
+					//imgProp.SetValue(phone, path);
 				}
+			}
+			int id = 1;
+			foreach (var val in values)
+			{
+				var characteristic = dbContext.Characteristics.FirstOrDefault(c => c.Id == id);
+				id++;
+				Example phoneExample = new Example() { Characteristic = characteristic, Value = val };
+				dbContext.Examples.Add(phoneExample);
+				dbContext.PhoneExamples.Add(new PhoneExample() { Phone = phone, Example = phoneExample });
+			}
 			//}
-			context.Phones.Add(phone);
-			await context.SaveChangesAsync();
-			return View();
+			await dbContext.SaveChangesAsync();
+			return View(characteristics);
 		}
 	}
 }
