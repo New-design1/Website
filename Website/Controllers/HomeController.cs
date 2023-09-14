@@ -6,25 +6,22 @@ using Website.Models;
 
 namespace Website.Controllers
 {
-    public class Person
-    {
-       
-    }
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        AppDbContext context;
+        AppDbContext dbContext;
 
         public HomeController(ILogger<HomeController> logger, AppDbContext context)
         {
             _logger = logger;
-            this.context = context;
+            dbContext = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            
-            return View(await context.Phones.ToListAsync());
+            var phones = dbContext.Phones.Include(p => p.PhoneExamples).ThenInclude(p => p.Example).Include(p => p.PhoneImages).ThenInclude(p => p.Image).ToList();
+            //var df = phones[0].PhoneImages[0].Image.Path;
+            return View(phones);
            
         }
 

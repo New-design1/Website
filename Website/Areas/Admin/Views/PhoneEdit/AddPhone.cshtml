@@ -1,56 +1,23 @@
-﻿@model Phone
+﻿@model IEnumerable<Characteristic>
 
 <form asp-area="Admin" asp-controller="PhoneEdit" asp-action="AddPhone" method="post" enctype="multipart/form-data">
-	<input type="hidden" asp-for="Id" />
+	<input type="hidden" name="Id" />
 	<p>
-		<label asp-for="ModelName">Модель</label><br />
-		<input type="text" asp-for="ModelName" />
+		<label>Название модели</label><br />
+		<input type="text" name="ModelName" />
 	</p>
 	<p>
-		<label asp-for="ImagePath1">Изображения</label><br />
-		<input type="file" name="imageFiles" multiple/>
-		@*<img class="img-block" src="~/images/@Model.TitleImagePath" />*@
+		<label >Изображения</label><br />
+		<input type="file"  name="image" multiple/>
 	</p>
-	<p>
-		<label asp-for="Color">Цвет</label><br />
-		<input type="text" asp-for="Color" />
-	</p>
-	<p>
-		<label asp-for="ScreenDiagonal">Диагональ экрана</label><br />
-		<input type="text" asp-for="ScreenDiagonal" />
-	</p>
-	<p>
-		<label asp-for="Resolution">Разрешение экрана</label><br />
-		<input type="text" asp-for="Resolution" />
-	</p>
-	<p>
-		<label asp-for="ScreenFrequency">Частота экрана</label><br />
-		<input type="text" asp-for="ScreenFrequency" />
-	</p>
-	<p>
-		<label asp-for="OperatingSystem">Операционная система</label><br />
-		<input type="text" asp-for="OperatingSystem" />
-	</p>
-	<p>
-		<label asp-for="ProcessorModel">Модель процессора</label><br />
-		<input type="text" asp-for="ProcessorModel" />
-	</p>
-	<p>
-		<label asp-for="CoresCount">Число ядер</label><br />
-		<input type="text" asp-for="CoresCount" />
-	</p>
-	<p>
-		<label asp-for="CoreFrequency">Частота процессора</label><br />
-		<input type="text" asp-for="CoreFrequency" />
-	</p>
-	<p>
-		<label asp-for="BatteryCapacity">Емкость аккумалятора</label><br />
-		<input type="text" asp-for="BatteryCapacity" />
-	</p>
-	<p>
-		<label asp-for="Price">Цена</label><br />
-		<input type="text" asp-for="Price" />
-	</p>
+	
+	@foreach(var characteristic in Model)
+	{
+		<p>
+			<label >@characteristic.Name</label><br />
+			<input type="text" name="values" />
+		</p>
+	}
 	<p>
 		<input type="submit" value="Сохранить" />
 	</p>

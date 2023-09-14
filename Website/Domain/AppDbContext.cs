@@ -11,11 +11,12 @@ namespace Website.Domain
         {
 
 		}
-
-        public DbSet<TextField> TextFields { get; set; }
-        public DbSet<ServiceItem> ServiceItems { get; set; }
-
         public DbSet<Phone> Phones { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Characteristic> Characteristics { get; set; }
+        public DbSet<Example> Examples { get; set; }
+        public DbSet<PhoneImage> PhoneImages { get; set; }
+        public DbSet<PhoneExample> PhoneExamples { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,24 +47,17 @@ namespace Website.Domain
                 UserId = "3b62472e-4f66-49fa-a20f-e7685b9565d8"
             });
 
-            modelBuilder.Entity<TextField>().HasData(new TextField
-            {
-                Id = new Guid("63dc8fa6-07ae-4391-8916-e057f71239ce"),
-                CodeWord = "PageIndex",
-                Title = "Главная"
-            });
-            modelBuilder.Entity<TextField>().HasData(new TextField
-            {
-                Id = new Guid("70bf165a-700a-4156-91c0-e83fce0a277f"),
-                CodeWord = "PageServices",
-                Title = "Наши услуги"
-            });
-            modelBuilder.Entity<TextField>().HasData(new TextField
-            {
-                Id = new Guid("4aa76a4c-c59d-409a-84c1-06e6487a137a"),
-                CodeWord = "PageContacts",
-                Title = "Контакты"
-            });
+            modelBuilder.Entity<Characteristic>().HasData(
+                new Characteristic { Id = 1, Name = "Цвет" },
+                new Characteristic { Id = 2, Name = "Диагональ экрана" },
+                new Characteristic { Id = 3, Name = "Разрешение экрана" },
+                new Characteristic { Id = 4, Name = "Частота экрана" },
+                new Characteristic { Id = 5, Name = "Модель процессора" },
+                new Characteristic { Id = 6, Name = "Количество ядер" },
+                new Characteristic { Id = 7, Name = "Частота процессора" },
+                new Characteristic { Id = 8, Name = "Емкость батареи" },
+                new Characteristic { Id = 9, Name = "Операционная система" },
+                new Characteristic { Id = 10, Name = "Цена" });
         }
     }
 }

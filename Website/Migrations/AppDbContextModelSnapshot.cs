@@ -151,13 +151,13 @@ namespace Website.Migrations
                         {
                             Id = "3b62472e-4f66-49fa-a20f-e7685b9565d8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c2a03ea6-0baa-4943-9987-59bf57f8e2f1",
+                            ConcurrencyStamp = "c2a83aa5-5e98-4214-a35b-ae32e436aaf0",
                             Email = "my@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MY@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFREqhIiZnm4Ev4avAMvn4QD3Pg3DpOO6WZq+Pllg4cT1I/R6PHWDLKz7mf9px9E1g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOcsz1W+pGR6qckXWt8/WlKjK6k1nd9giT01/o20rkiJiaJJIKnYYZ3Lc/Zn87w01A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -253,55 +253,118 @@ namespace Website.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Website.Domain.Entities.Characteristic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Characteristics");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Цвет"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Диагональ экрана"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Разрешение экрана"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Частота экрана"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Модель процессора"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Количество ядер"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Частота процессора"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Емкость батареи"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Операционная система"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Цена"
+                        });
+                });
+
+            modelBuilder.Entity("Website.Domain.Entities.Example", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CharacteristicId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacteristicId");
+
+                    b.ToTable("Examples");
+                });
+
+            modelBuilder.Entity("Website.Domain.Entities.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Path")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("Website.Domain.Entities.Phone", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BatteryCapacity")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CoreFrequency")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CoresCount")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagePath1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagePath2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagePath3")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagePath4")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagePath5")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ModelName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OperatingSystem")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProcessorModel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Resolution")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ScreenDiagonal")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ScreenFrequency")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -309,109 +372,50 @@ namespace Website.Migrations
                     b.ToTable("Phones");
                 });
 
-            modelBuilder.Entity("Website.Domain.Entities.ServiceItem", b =>
+            modelBuilder.Entity("Website.Domain.Entities.PhoneExample", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExampleId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("PhoneId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MetaDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MetaKeywords")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MetaTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Subtitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TitleImagePath")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ServiceItems");
+                    b.HasIndex("ExampleId");
+
+                    b.HasIndex("PhoneId");
+
+                    b.ToTable("PhoneExamples");
                 });
 
-            modelBuilder.Entity("Website.Domain.Entities.TextField", b =>
+            modelBuilder.Entity("Website.Domain.Entities.PhoneImage", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("PhoneId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CodeWord")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MetaDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MetaKeywords")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MetaTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Subtitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TitleImagePath")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TextFields");
+                    b.HasIndex("ImageId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("63dc8fa6-07ae-4391-8916-e057f71239ce"),
-                            CodeWord = "PageIndex",
-                            DateAdded = new DateTime(2023, 9, 4, 9, 42, 42, 557, DateTimeKind.Utc).AddTicks(1635),
-                            Text = "Содержание заполняется администратором",
-                            Title = "Главная"
-                        },
-                        new
-                        {
-                            Id = new Guid("70bf165a-700a-4156-91c0-e83fce0a277f"),
-                            CodeWord = "PageServices",
-                            DateAdded = new DateTime(2023, 9, 4, 9, 42, 42, 557, DateTimeKind.Utc).AddTicks(1677),
-                            Text = "Содержание заполняется администратором",
-                            Title = "Наши услуги"
-                        },
-                        new
-                        {
-                            Id = new Guid("4aa76a4c-c59d-409a-84c1-06e6487a137a"),
-                            CodeWord = "PageContacts",
-                            DateAdded = new DateTime(2023, 9, 4, 9, 42, 42, 557, DateTimeKind.Utc).AddTicks(1691),
-                            Text = "Содержание заполняется администратором",
-                            Title = "Контакты"
-                        });
+                    b.HasIndex("PhoneId");
+
+                    b.ToTable("PhoneImages");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -463,6 +467,77 @@ namespace Website.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Website.Domain.Entities.Example", b =>
+                {
+                    b.HasOne("Website.Domain.Entities.Characteristic", "Characteristic")
+                        .WithMany("Examples")
+                        .HasForeignKey("CharacteristicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Characteristic");
+                });
+
+            modelBuilder.Entity("Website.Domain.Entities.PhoneExample", b =>
+                {
+                    b.HasOne("Website.Domain.Entities.Example", "Example")
+                        .WithMany("PhoneExamples")
+                        .HasForeignKey("ExampleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Website.Domain.Entities.Phone", "Phone")
+                        .WithMany("PhoneExamples")
+                        .HasForeignKey("PhoneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Example");
+
+                    b.Navigation("Phone");
+                });
+
+            modelBuilder.Entity("Website.Domain.Entities.PhoneImage", b =>
+                {
+                    b.HasOne("Website.Domain.Entities.Image", "Image")
+                        .WithMany("PhoneImages")
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Website.Domain.Entities.Phone", "Phone")
+                        .WithMany("PhoneImages")
+                        .HasForeignKey("PhoneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Image");
+
+                    b.Navigation("Phone");
+                });
+
+            modelBuilder.Entity("Website.Domain.Entities.Characteristic", b =>
+                {
+                    b.Navigation("Examples");
+                });
+
+            modelBuilder.Entity("Website.Domain.Entities.Example", b =>
+                {
+                    b.Navigation("PhoneExamples");
+                });
+
+            modelBuilder.Entity("Website.Domain.Entities.Image", b =>
+                {
+                    b.Navigation("PhoneImages");
+                });
+
+            modelBuilder.Entity("Website.Domain.Entities.Phone", b =>
+                {
+                    b.Navigation("PhoneExamples");
+
+                    b.Navigation("PhoneImages");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,34 +1,6 @@
 ﻿@model Phone
 
 <div class="item-showcase">
-	@*<div class="item-showcase-wrapper">
-		<input checked type="radio" name="slider" id="slide1" />
-		<input type="radio" name="slider" id="slide2" />
-		<input type="radio" name="slider" id="slide3" />
-		<input type="radio" name="slider" id="slide4" />
-		<div class="item-showcase-wrapper-slider-wrapper">
-			<div class="item-showcase-wrapper-slider-wrapper-inner">
-				<article>
-					<img src="~/images/buy.png" />
-				</article>
-				<article><img src="~/images/Gruzoperevozki-po-Rossii-Servis-poputnyh-gruzov.jpg" /></article>
-				<article><img src="~/images/phones/Poco.jpg" /></article>
-				<article><img src="~/images/phones/Xiaomi.png" /></article>
-			</div>
-		</div>
-		<div class="item-showcase-wrapper-slider-prev-next-control">
-			<label for="slide1" ></label>
-			<label for="slide2" ></label>
-			<label for="slide3" ></label>
-			<label for="slide4" ></label>
-		</div>
-		<div class="item-showcase-wrapper-slider-dot-control">
-			<label for="slide1" ></label>
-			<label for="slide2" ></label>
-			<label for="slide3" ></label>
-			<label for="slide4" ></label>
-		</div>
-	</div>*@
 	<div id="carouselExampleIndicators" class="carousel slide">
 		<div class="carousel-indicators">
 			<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -39,19 +11,19 @@
 		</div>
 		<div class="carousel-inner">
 			<div class="carousel-item active">
-				<img src="@Model.ImagePath1" class="d-block w-100" alt="...">
+				<img src="@Model.PhoneImages[0].Image.Path" class="d-block w-100" alt="...">
 			</div>
 			<div class="carousel-item">
-				<img src="@Model.ImagePath2" class="d-block w-100" alt="...">
+				<img src="@Model.PhoneImages[1].Image.Path" class="d-block w-100" alt="...">
 			</div>
 			<div class="carousel-item">
-				<img src="@Model.ImagePath3" class="d-block w-100" alt="...">
+				<img src="@Model.PhoneImages[2].Image.Path" class="d-block w-100" alt="...">
 			</div>
 			<div class="carousel-item">
-				<img src="@Model.ImagePath4" class="d-block w-100" alt="...">
+				<img src="@Model.PhoneImages[3].Image.Path" class="d-block w-100" alt="...">
 			</div>
 			<div class="carousel-item">
-				<img src="@Model.ImagePath5" class="d-block w-100" alt="...">
+				<img src="@Model.PhoneImages[4].Image.Path" class="d-block w-100" alt="...">
 			</div>
 		</div>
 		<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -73,16 +45,9 @@
 </div>
 <div class="content-full-description">
 	<ul class="list-group list-group-flush">
-		<li class="list-group-item">Цена: @Model.Price</li>
-		<li class="list-group-item">Модель: @Model.ModelName</li>
-		<li class="list-group-item">Цвет: @Model.Color</li>
-		<li class="list-group-item">Диагональ экрана: @Model.ScreenDiagonal</li>
-		<li class="list-group-item">Разрешение: @Model.Resolution</li>
-		<li class="list-group-item">Частота: @Model.ScreenFrequency</li>
-		<li class="list-group-item">Операционная система: @Model.OperatingSystem</li>
-		<li class="list-group-item">Модель процессора: @Model.ProcessorModel</li>
-		<li class="list-group-item">Количество ядер: @Model.CoresCount</li>
-		<li class="list-group-item">Частота работы процессора: @Model.CoreFrequency</li>
-		<li class="list-group-item">Емкость аккумулятора: @Model.BatteryCapacity</li>
+		@foreach(var characteristic in Model.PhoneExamples)
+		{
+			<li class="list-group-item">@characteristic.Example.Characteristic.Name: @characteristic.Example.Value</li>
+		}
 	</ul>
 </div>

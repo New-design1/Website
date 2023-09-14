@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Website.Migrations
 {
     /// <inheritdoc />
-    public partial class _initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,42 +53,41 @@ namespace Website.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ServiceItems",
+                name: "Characteristics",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Subtitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TitleImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MetaTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MetaDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MetaKeywords = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateAdded = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ServiceItems", x => x.Id);
+                    table.PrimaryKey("PK_Characteristics", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TextFields",
+                name: "Images",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CodeWord = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Subtitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TitleImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MetaTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MetaDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MetaKeywords = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateAdded = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Path = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TextFields", x => x.Id);
+                    table.PrimaryKey("PK_Images", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Phones",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ModelName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Phones", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -197,6 +196,78 @@ namespace Website.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Examples",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CharacteristicId = table.Column<int>(type: "int", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Examples", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Examples_Characteristics_CharacteristicId",
+                        column: x => x.CharacteristicId,
+                        principalTable: "Characteristics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PhoneImages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PhoneId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ImageId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PhoneImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PhoneImages_Images_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Images",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PhoneImages_Phones_PhoneId",
+                        column: x => x.PhoneId,
+                        principalTable: "Phones",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PhoneExamples",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PhoneId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExampleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PhoneExamples", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PhoneExamples_Examples_ExampleId",
+                        column: x => x.ExampleId,
+                        principalTable: "Examples",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PhoneExamples_Phones_PhoneId",
+                        column: x => x.PhoneId,
+                        principalTable: "Phones",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -205,16 +276,23 @@ namespace Website.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3b62472e-4f66-49fa-a20f-e7685b9565d8", 0, "07e5b160-ef79-4193-b504-733ec9862c1a", "my@email.com", true, false, null, "MY@EMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEELQunuzQT9Zu7eHSQfJVTDuBcKefbSId/aRhqOPF6jW5FUEr3RsByMBYORixWfYzA==", null, false, "", false, "admin" });
+                values: new object[] { "3b62472e-4f66-49fa-a20f-e7685b9565d8", 0, "c2a83aa5-5e98-4214-a35b-ae32e436aaf0", "my@email.com", true, false, null, "MY@EMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEOcsz1W+pGR6qckXWt8/WlKjK6k1nd9giT01/o20rkiJiaJJIKnYYZ3Lc/Zn87w01A==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
-                table: "TextFields",
-                columns: new[] { "Id", "CodeWord", "DateAdded", "MetaDescription", "MetaKeywords", "MetaTitle", "Subtitle", "Text", "Title", "TitleImagePath" },
+                table: "Characteristics",
+                columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("4aa76a4c-c59d-409a-84c1-06e6487a137a"), "PageContacts", new DateTime(2023, 8, 24, 11, 38, 3, 449, DateTimeKind.Utc).AddTicks(6982), null, null, null, null, "Содержание заполняется администратором", "Контакты", null },
-                    { new Guid("63dc8fa6-07ae-4391-8916-e057f71239ce"), "PageIndex", new DateTime(2023, 8, 24, 11, 38, 3, 449, DateTimeKind.Utc).AddTicks(6931), null, null, null, null, "Содержание заполняется администратором", "Главная", null },
-                    { new Guid("70bf165a-700a-4156-91c0-e83fce0a277f"), "PageServices", new DateTime(2023, 8, 24, 11, 38, 3, 449, DateTimeKind.Utc).AddTicks(6969), null, null, null, null, "Содержание заполняется администратором", "Наши услуги", null }
+                    { 1, "Цвет" },
+                    { 2, "Диагональ экрана" },
+                    { 3, "Разрешение экрана" },
+                    { 4, "Частота экрана" },
+                    { 5, "Модель процессора" },
+                    { 6, "Количество ядер" },
+                    { 7, "Частота процессора" },
+                    { 8, "Емкость батареи" },
+                    { 9, "Операционная система" },
+                    { 10, "Цена" }
                 });
 
             migrationBuilder.InsertData(
@@ -260,6 +338,31 @@ namespace Website.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Examples_CharacteristicId",
+                table: "Examples",
+                column: "CharacteristicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PhoneExamples_ExampleId",
+                table: "PhoneExamples",
+                column: "ExampleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PhoneExamples_PhoneId",
+                table: "PhoneExamples",
+                column: "PhoneId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PhoneImages_ImageId",
+                table: "PhoneImages",
+                column: "ImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PhoneImages_PhoneId",
+                table: "PhoneImages",
+                column: "PhoneId");
         }
 
         /// <inheritdoc />
@@ -281,16 +384,28 @@ namespace Website.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ServiceItems");
+                name: "PhoneExamples");
 
             migrationBuilder.DropTable(
-                name: "TextFields");
+                name: "PhoneImages");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Examples");
+
+            migrationBuilder.DropTable(
+                name: "Images");
+
+            migrationBuilder.DropTable(
+                name: "Phones");
+
+            migrationBuilder.DropTable(
+                name: "Characteristics");
         }
     }
 }
