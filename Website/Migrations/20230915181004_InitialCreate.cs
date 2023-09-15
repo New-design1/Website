@@ -71,7 +71,7 @@ namespace Website.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Path = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Path = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -83,7 +83,7 @@ namespace Website.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ModelName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ModelName = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -203,7 +203,7 @@ namespace Website.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CharacteristicId = table.Column<int>(type: "int", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Value = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -276,7 +276,7 @@ namespace Website.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3b62472e-4f66-49fa-a20f-e7685b9565d8", 0, "c2a83aa5-5e98-4214-a35b-ae32e436aaf0", "my@email.com", true, false, null, "MY@EMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEOcsz1W+pGR6qckXWt8/WlKjK6k1nd9giT01/o20rkiJiaJJIKnYYZ3Lc/Zn87w01A==", null, false, "", false, "admin" });
+                values: new object[] { "3b62472e-4f66-49fa-a20f-e7685b9565d8", 0, "a56ae0d3-5dd2-4626-8a44-50c127d4d94b", "my@email.com", true, false, null, "MY@EMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAECmjGf5HOSA2geOeXMI90dGJm013YgMSTnGq2ueHeKbWEGan0Lb9YFDCjS2PJUo2fg==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Characteristics",
@@ -340,9 +340,18 @@ namespace Website.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Examples_CharacteristicId",
+                name: "IX_Examples_CharacteristicId_Value",
                 table: "Examples",
-                column: "CharacteristicId");
+                columns: new[] { "CharacteristicId", "Value" },
+                unique: true,
+                filter: "[Value] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Images_Path",
+                table: "Images",
+                column: "Path",
+                unique: true,
+                filter: "[Path] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PhoneExamples_ExampleId",
@@ -363,6 +372,13 @@ namespace Website.Migrations
                 name: "IX_PhoneImages_PhoneId",
                 table: "PhoneImages",
                 column: "PhoneId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Phones_ModelName",
+                table: "Phones",
+                column: "ModelName",
+                unique: true,
+                filter: "[ModelName] IS NOT NULL");
         }
 
         /// <inheritdoc />

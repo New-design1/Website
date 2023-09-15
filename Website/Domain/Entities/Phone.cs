@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace Website.Domain.Entities
 {
+	[Index(nameof(ModelName), IsUnique = true)]
 	public class Phone
 	{
 		[Required]
@@ -11,6 +14,7 @@ namespace Website.Domain.Entities
 		public List<PhoneExample> PhoneExamples { get; set; } = new();
 	}
 
+	[Index(nameof(Path), IsUnique = true)]
 	public class Image
 	{
 		[Required]
@@ -37,6 +41,7 @@ namespace Website.Domain.Entities
 		public List<Example> Examples { get; set; } = new();
 	}
 
+	[Index(nameof(CharacteristicId), nameof(Value), IsUnique = true)]
 	public class Example
 	{
 		[Required]

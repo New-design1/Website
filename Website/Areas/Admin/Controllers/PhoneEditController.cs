@@ -30,34 +30,57 @@ namespace Website.Areas.Admin.Controllers
 		{
 			//if(ModelState.IsValid) 
 			//{
+			var phoneFromDb = dbContext.Phones.FirstOrDefault(x => x.ModelName == phone.ModelName);
+			if (!(phoneFromDb == default(Phone)))
+			{
+				ViewData["PhoneId"] = phoneFromDb.Id;
+				ViewData["PhoneModelName"] = phoneFromDb.ModelName;
+				return View(characteristics);
+			}
 			dbContext.Phones.Add(phone);
 
 			if (Request.Form.Files != null)
 			{
-				int imgNum = 1;
-				foreach (var img in Request.Form.Files)
+				
+				foreach (var imageFromForm in Request.Form.Files)
 				{
-					using (var stream = new FileStream(Path.Combine(hostingEnvironment.WebRootPath, "images/phones/", img.FileName), FileMode.Create))
+					using (var stream = new FileStream(Path.Combine(hostingEnvironment.WebRootPath, "images/phones/", imageFromForm.FileName), FileMode.Create))
 					{
-						img.CopyTo(stream);
+						imageFromForm.CopyTo(stream);
 					}
-					string path = Path.Combine("/images/phones/", img.FileName);
-					Image image = new Image() { Path = path };
-					dbContext.Images.Add(image);
-					dbContext.PhoneImages.Add(new PhoneImage() { Phone = phone, Image = image });
-					//Type type = typeof(Phone);
-					//var imgProp = type.GetProperty("ImagePath" + imgNum++.ToString());
-					//imgProp.SetValue(phone, path);
+
+					string path = Path.Combine("/images/phones/", imageFromForm.FileName);
+					var imageFromDb = dbContext.Images.FirstOrDefault(x => x.Path == path);
+
+					if (imageFromDb == default(Image))
+					{
+						Image image = new Image() { Path = path };
+						dbContext.Images.Add(image);
+						dbContext.PhoneImages.Add(new PhoneImage() { Phone = phone, Image = image });
+					}
+					else
+					{
+						dbContext.PhoneImages.Add(new PhoneImage { Phone = phone, Image =  imageFromDb});
+					}
 				}
 			}
-			int id = 1;
-			foreach (var val in values)
+
+			int characteristicId = 1;
+			foreach (var value in values)
 			{
-				var characteristic = dbContext.Characteristics.FirstOrDefault(c => c.Id == id);
-				id++;
-				Example phoneExample = new Example() { Characteristic = characteristic, Value = val };
-				dbContext.Examples.Add(phoneExample);
-				dbContext.PhoneExamples.Add(new PhoneExample() { Phone = phone, Example = phoneExample });
+				Characteristic characteristic = dbContext.Characteristics.FirstOrDefault(c => c.Id == characteristicId);
+				Example phoneExampleFromDb = dbContext.Examples.FirstOrDefault(x => x.CharacteristicId == characteristicId && x.Value == value);
+				if (phoneExampleFromDb == default(Example))
+				{
+					Example phoneExample = new Example() { Characteristic = characteristic, Value = value };
+					dbContext.Examples.Add(phoneExample);
+					dbContext.PhoneExamples.Add(new PhoneExample() { Phone = phone, Example = phoneExample });
+				}
+				else
+				{
+					dbContext.PhoneExamples.Add(new PhoneExample() { Phone = phone, Example = phoneExampleFromDb });
+				}	
+				characteristicId++;
 			}
 			//}
 			await dbContext.SaveChangesAsync();
