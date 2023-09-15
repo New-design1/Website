@@ -12,7 +12,7 @@ using Website.Domain;
 namespace Website.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230912190326_InitialCreate")]
+    [Migration("20230915181004_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -154,13 +154,13 @@ namespace Website.Migrations
                         {
                             Id = "3b62472e-4f66-49fa-a20f-e7685b9565d8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c2a83aa5-5e98-4214-a35b-ae32e436aaf0",
+                            ConcurrencyStamp = "a56ae0d3-5dd2-4626-8a44-50c127d4d94b",
                             Email = "my@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MY@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOcsz1W+pGR6qckXWt8/WlKjK6k1nd9giT01/o20rkiJiaJJIKnYYZ3Lc/Zn87w01A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECmjGf5HOSA2geOeXMI90dGJm013YgMSTnGq2ueHeKbWEGan0Lb9YFDCjS2PJUo2fg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -336,11 +336,13 @@ namespace Website.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CharacteristicId");
+                    b.HasIndex("CharacteristicId", "Value")
+                        .IsUnique()
+                        .HasFilter("[Value] IS NOT NULL");
 
                     b.ToTable("Examples");
                 });
@@ -354,9 +356,13 @@ namespace Website.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Path")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Path")
+                        .IsUnique()
+                        .HasFilter("[Path] IS NOT NULL");
 
                     b.ToTable("Images");
                 });
@@ -368,9 +374,13 @@ namespace Website.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ModelName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ModelName")
+                        .IsUnique()
+                        .HasFilter("[ModelName] IS NOT NULL");
 
                     b.ToTable("Phones");
                 });

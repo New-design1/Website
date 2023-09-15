@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<Characteristic>
 
+@if(ViewData.Count > 0)
+{
+	<a asp-area="" asp-controller="Product" asp-action="ProductPage" asp-route-id="@ViewData["PhoneId"]">@ViewData["PhoneModelName"] уже добавлено в базу данных. Для просмотра кликните по данному сообщению.</a>
+}
 <form asp-area="Admin" asp-controller="PhoneEdit" asp-action="AddPhone" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="Id" />
 	<p>
