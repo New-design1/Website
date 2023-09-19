@@ -9,7 +9,10 @@
     </div>
     <div class="div-box">
         <h3>Редактировать страницы сайта</h3>
-        <a asp-area="Admin" asp-controller="PhoneEdit" asp-action="AddPhone">Добавить телефон</a>
+        
+            <a asp-area="Admin" asp-controller="PhoneEdit" asp-action="AddPhone">Добавить телефон</a><br />
+            <a asp-area="Admin" asp-controller="PhoneEdit" asp-action="RemovePhone">Удалить телефон</a><br />
+            <a asp-area="Admin" asp-controller="PhoneEdit" asp-action="UpdatePhone">Редактировать телефон</a>
     </div>
     <div class="div-box">
         <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">

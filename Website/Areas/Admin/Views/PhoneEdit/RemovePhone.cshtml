@@ -1,0 +1,15 @@
+﻿@if(ViewData.Count > 0)
+{
+	<p>
+		@ViewData["Message"]
+	</p>
+}
+<form asp-area="Admin" asp-controller="PhoneEdit" asp-action="RemovePhone" method="post">
+	<p>
+		<label>Название модели</label><br />
+		<input type="text" name="ModelName" />
+	</p>
+	<p>
+		<input type="submit" value="Удалить" />
+	</p>
+</form>
