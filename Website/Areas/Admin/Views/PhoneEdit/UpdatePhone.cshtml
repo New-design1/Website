@@ -1,0 +1,41 @@
+﻿@model Phone
+
+@if (Model == null)
+{
+	if (ViewData.ContainsKey("Message"))
+		@ViewData["Message"]
+	if (ViewData.ContainsKey("Updated"))
+		@ViewData["Updated"]
+	<form asp-area="Admin" asp-controller="PhoneEdit" asp-action="UpdatePhone" method="get">
+		<p>
+			<label>Название модели</label><br />
+			<input type="text" name="ModelName" />
+		</p>
+		<p>
+			<input type="submit" value="Найти" />
+		</p>
+	</form>
+}
+else
+{
+	<form asp-area="Admin" asp-controller="PhoneEdit" asp-action="UpdatePhone" method="post" enctype="multipart/form-data">
+		<p>
+			<label>Название модели</label><br />
+			<input type="text" name="ModelName" value="@Model.ModelName" />
+		</p>
+		<p>
+			<label>Изображения</label><br />
+			<input type="file" name="image" multiple />
+		</p>
+		@foreach(var s in Model.PhoneExamples)
+		{
+			<p>
+				<label>@s.Example.Characteristic.Name</label><br />
+				<input type="text" name="values" value="@s.Example.Value" />
+			</p>
+		}
+		<p>
+			<input type="submit" value="Обновить" />
+		</p>
+	</form>
+}
