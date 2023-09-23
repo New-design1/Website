@@ -27,6 +27,7 @@ namespace Website.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
+
             if (ModelState.IsValid)
             {
                 IdentityUser user = await userManager.FindByNameAsync(model.UserName);
@@ -41,7 +42,8 @@ namespace Website.Controllers
                 }
                 ModelState.AddModelError(nameof(LoginViewModel.UserName), "Неверный логин или пароль");
             }
-            return View(model);
+			ViewBag.returnUrl = returnUrl;
+			return View(model);
         }
 
         [Authorize]

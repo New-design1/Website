@@ -1,10 +1,12 @@
-﻿namespace Website.Domain.Repositories.EntityFramework
+﻿using Website.Domain.Repositories.Abstract;
+
+namespace Website.Domain.Repositories.EntityFramework
 {
-	public class EFPhoneRepository
+	public class EFPhoneRepository : IPhoneRepository
 	{
 		AppDbContext db;
 
-		public EFPhoneRepository(AppDbContext context) 
+		public EFPhoneRepository(AppDbContext context)
 		{ 
 			db = context;
 		}
