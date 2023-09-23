@@ -23,10 +23,7 @@ namespace Website
             {
                 x.Conventions.Add(new AdminAreaAuthorization("Admin", "AdminArea"));
             });
-            //builder.Configuration.Bind(new Config());
-            //builder.Services.AddTransient<ITextFieldsRepository, EFTextFieldsRepository>();
-            //builder.Services.AddTransient<IServiceItemsRepository, EFServiceItemsRepository>();
-            //builder.Services.AddTransient<DataManager>();
+
 
             string connection = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));

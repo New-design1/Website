@@ -46,8 +46,8 @@ namespace Website.Areas.Admin.Controllers
 			int characteristicId = 1;
 			foreach (var value in values)
 			{
-				Characteristic characteristic = dbContext.Characteristics.FirstOrDefault(c => c.Id == characteristicId);
-				Example ExampleFromDb = dbContext.Examples.FirstOrDefault(x => x.CharacteristicId == characteristicId && x.Value == value);
+				Characteristic? characteristic = dbContext.Characteristics.FirstOrDefault(c => c.Id == characteristicId);
+				Example? ExampleFromDb = dbContext.Examples.FirstOrDefault(x => x.CharacteristicId == characteristicId && x.Value == value);
 				if (ExampleFromDb == default(Example))
 				{
 					Example example = new Example() { Characteristic = characteristic, Value = value };
@@ -73,7 +73,7 @@ namespace Website.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> RemovePhone(string modelName)
 		{
-			Phone phone = dbContext.Phones.FirstOrDefault(x => x.ModelName == modelName);
+			Phone? phone = dbContext.Phones.FirstOrDefault(x => x.ModelName == modelName);
 			if (phone != null)
 			{
 				dbContext.Phones.Remove(phone);
@@ -87,7 +87,7 @@ namespace Website.Areas.Admin.Controllers
 		{
 			if (modelName == null)
 				return View();
-			Phone phone = dbContext.Phones.FirstOrDefault(x => x.ModelName == modelName);
+			Phone? phone = dbContext.Phones.FirstOrDefault(x => x.ModelName == modelName);
 			if (phone == null)
 			{
 				ViewData["Message"] = $"{modelName} нет в бд";
@@ -106,7 +106,7 @@ namespace Website.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<IActionResult> UpdatePhone(Phone phone, params string[] values)
 		{
-			Phone phoneFromDb = dbContext.Phones
+			Phone? phoneFromDb = dbContext.Phones
 										.Include(p => p.PhoneExamples)
 										.ThenInclude(p => p.Example)
 										.ThenInclude(p => p.Characteristic)
