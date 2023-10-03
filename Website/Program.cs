@@ -16,7 +16,7 @@ namespace Website
             // Add services to the container.
             builder.Services.AddAuthorization(x =>
             {
-                x.AddPolicy("AdminArea", policy => { policy.RequireRole("admin"); });
+                x.AddPolicy("AdminArea", policy =>  policy.RequireRole("admin") );
             });
 
             builder.Services.AddControllersWithViews(x =>
